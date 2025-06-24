@@ -101,3 +101,77 @@ const GameController = (() => {
     },
   };
 })();
+
+
+const DisplayController = (() => {
+  // Cache DOM elements
+  const boardElement = document.querySelector(".gameboard");
+  const messageElement = document.querySelector(".message");
+  const resetButton = document.querySelector(".reset-btn");
+  
+  // Initialize the display
+  const init = () => {
+    renderBoard();
+    updateMessage();
+    setupEventListeners();
+  };
+  
+  // Render the board based on Gameboard state
+  const renderBoard = () => {
+    const board = Gameboard.getBoard();
+    boardElement.innerHTML = "";
+    
+    board.forEach((cell, index) => {
+      const cellElement = document.createElement("div");
+      cellElement.classList.add("cell");
+      cellElement.dataset.index = index;
+      cellElement.textContent = cell;
+      boardElement.appendChild(cellElement);
+    });
+  };
+  
+  // Update game message
+  const updateMessage = () => {
+    const currentPlayer = GameController.getCurrentPlayer();
+    messageElement.textContent = `${currentPlayer.name}'s turn (${currentPlayer.mark})`;
+  };
+  
+  // Handle cell clicks
+  const handleCellClick = (e) => {
+    const index = e.target.dataset.index;
+    if (index === undefined) return;
+    
+    const result = GameController.playTurn(index);
+    if (result) {
+      renderBoard();
+      if (result.gameOver) {
+        if (result.winner === "tie") {
+          messageElement.textContent = "It's a tie!";
+        } else {
+          messageElement.textContent = `${result.winner === "X" ? "Player 1" : "Player 2"} wins!`;
+        }
+      } else {
+        updateMessage();
+      }
+    }
+  };
+  
+  // Handle reset
+  const handleReset = () => {
+    GameController.resetGame();
+    renderBoard();
+    updateMessage();
+  };
+  
+  // Set up event listeners
+  const setupEventListeners = () => {
+    boardElement.addEventListener("click", handleCellClick);
+    resetButton.addEventListener("click", handleReset);
+  };
+  
+  // Public method
+  return { init };
+})();
+
+// Initialize the game when DOM is loaded
+document.addEventListener("DOMContentLoaded", DisplayController.init);
