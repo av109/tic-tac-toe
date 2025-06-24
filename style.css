@@ -1,3 +1,9 @@
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap");
+* {
+  background-color: #312a3a;
+  color: white;
+  font-family: "Outfit", sans-serif;
+}
 .game-container {
   text-align: center;
   max-width: 500px;
@@ -15,12 +21,18 @@
 
 .cell {
   height: 100px;
-  background-color: #f0f0f0;
+  /* background-color: #f0f0f0; */
+  background-color: #7131f5;
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 2.5rem;
   cursor: pointer;
+  
+}
+
+.cell:hover {
+  opacity: 0.8;
 }
 
 .message {
@@ -32,7 +44,7 @@
 .reset-btn {
   padding: 10px 20px;
   font-size: 1rem;
-  background-color: #4CAF50;
+  background-color: #5405f2;
   color: white;
   border: none;
   border-radius: 5px;
@@ -40,5 +52,5 @@
 }
 
 .reset-btn:hover {
-  background-color: #45a049;
+  background-color: #9e67f9;
 }
